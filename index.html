@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة اختبار السرعة والذكاء 🎮</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            background-color: #1a1a2e;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* واجهة اللعبة الوهمية */
+        #game-ui {
+            background: #16213e;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+            max-width: 90%;
+            width: 350px;
+        }
+        .game-title {
+            color: #00fff5;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .start-btn {
+            background: linear-gradient(45deg, #00ff88, #00b8ff);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.4);
+            transition: 0.2s;
+        }
+        .start-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* واجهة الهكر والمرعب (مخفية في البداية) */
+        #hacker-ui {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 99999;
+            text-align: right;
+        }
+        .glitch-header {
+            font-size: 20px;
+            color: #ff0000;
+            font-weight: bold;
+            text-align: center;
+            border-bottom: 2px solid #ff0000;
+            padding-bottom: 10px;
+            animation: blink 0.3s infinite alternate;
+        }
+        @keyframes blink {
+            from { opacity: 1; }
+            to { opacity: 0.2; }
+        }
+        .console {
+            flex-grow: 1;
+            overflow: hidden;
+            font-size: 13px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            color: #00ff66;
+            margin-top: 15px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #fff;
+            background: #8b0000;
+            padding: 12px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        /* تأثير اهتزاز الشاشة */
+        .shake {
+            animation: shake 0.1s infinite;
+        }
+        @keyframes shake {
+            0% { transform: translate(2px, 2px); }
+            50% { transform: translate(-2px, -2px); }
+            100% { transform: translate(2px, -2px); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الواجهة الأولى: اللعبة الوهمية -->
+    <div id="game-ui">
+        <div class="game-title">🎯 لعبة سرعة الاستجابة</div>
+        <p>اختبر سرعة بديهتك ودقة مهاراتك الآن!</p>
+        <button class="start-btn" onclick="triggerHackPrank()">ابدأ اللعب 🚀</button>
+    </div>
+
+    <!-- الواجهة الثانية: الاختراق واستهداف المعالج -->
+    <div id="hacker-ui">
+        <div class="glitch-header">⚠️ CRITICAL HARDWARE ATTACK: CPU KERNEL BREACH ⚠️</div>
+        <div class="console" id="console"></div>
+        <div class="footer" id="status">جاري حقن شفرة تدمير المعالج...</div>
+    </div>
+
+    <script>
+        function triggerHackPrank() {
+            // 1. الدخول في وضع ملء الشاشة إجبارياً
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            }
+
+            // 2. إخفاء اللعبة وإظهار واجهة اختراق المعالج
+            document.getElementById('game-ui').style.display = 'none';
+            document.getElementById('hacker-ui').style.display = 'flex';
+            document.body.classList.add('shake');
+
+            // 3. تشغيل كود طباعة نصوص ضرب المعالج
+            runCpuAttack();
+        }
+
+        const attackLogs = [
+            "> EXPLOIT LOADED: Overclocking Voltage Control Units...",
+            "> TARGETING: CPU Cores (Thermal Limit Bypass)...",
+            "> Core 0 Temp: 78°C -> OVERHEATING...",
+            "> Core 1 Temp: 94°C -> CRITICAL OVERFLOW...",
+            "> Injecting Malicious Payload to RAM Kernel Space...",
+            "> Accessing Local Storage / Internal Memory... [ACCESS GRANTED]",
+            "> Uploading Encrypted Private Data to External IP [185.220.101.4]...",
+            "> WARNING: HARDWARE DAMAGE IMMINENT! FAN SPEED FORCED TO 0 RPM...",
+            "> SYSTEM CORRUPTION AT 99% ...",
+            "> --------------------------------------------------",
+            "> FATAL SYSTEM FAILURE: CPU PERMANENTLY MELTED."
+        ];
+
+        let consoleDiv = document.getElementById('console');
+        let statusDiv = document.getElementById('status');
+        let index = 0;
+
+        function runCpuAttack() {
+            if (index < attackLogs.length) {
+                consoleDiv.innerHTML += attackLogs[index] + "\n";
+                let percent = Math.min(100, (index + 1) * 9);
+                statusDiv.innerText = `جاري رفع حرارة المعالج وتصفير النظام... (${percent}%)`;
+                index++;
+                setTimeout(runCpuAttack, 700);
+            } else {
+                document.body.classList.remove('shake');
+                statusDiv.innerText = "😂 مقلب بسيط! تعيش وتاكل غيرها، جهازك ومعالجك بأمان تام 🌹";
+                statusDiv.style.background = "#007700";
+            }
+        }
+    </script>
+</body>
+</html>
